@@ -9,8 +9,9 @@ from postamat import Postamat
 if __name__ == '__main__':
 
     if len(sys.argv) <= 1:
-        print('The query must contain at least one argument')
-        print('Examples: "python run.py 10(id number)" or lists of ids: "python run.py 106,10,116"')
+        print()
+        print('The query must contain at least one argument', '\n')
+        print('Examples: "python run.py 10(id number)" or lists of ids: "python run.py 106,10,116"', '\n')
         sys.exit()
     else:
         ids = [i.strip() for i in sys.argv[1].split(',')]
@@ -25,6 +26,7 @@ if __name__ == '__main__':
 
         else:
             instance = Postamat(data['id'], data['address'], data['is_automated'], data['accept_cash'], data['accept_card'],
-                                name=data['name'], status=data['status'])
-            print(f'Postamat id = {instance.id}, Name = {instance.name}, Postamat status = {instance.status}')
+                                name=data['name'], status=data['status'], working_hours=data["working_hours"])
+            print(f'Postamat id = {instance.id}, Name = {instance.name}, status = {instance.status}, {instance.is_working()}')
+
 

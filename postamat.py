@@ -1,7 +1,8 @@
+from datetime import datetime
+
 class Postamat:
 
-    def __init__(self, id, address, is_automated, accept_cash, accept_card,
-                 bank_terminal, **kwargs):
+    def __init__(self, id, address, is_automated, accept_cash, accept_card, **kwargs):
 
         # Mandatory attributes
         self.id = id
@@ -9,7 +10,6 @@ class Postamat:
         self.is_automated = is_automated
         self.accept_cash = accept_cash
         self.accept_card = accept_card
-        self.bank_terminal = bank_terminal
 
         # optional possible and read-only attributes
         self.name = kwargs.get("name")
@@ -36,8 +36,22 @@ class Postamat:
     def get_description(self):
         return self.description
 
+    @property
     def get_working_hours(self):
         return self.working_hours
+
+    def is_working(self):
+        day_now = datetime.today().weekday()  # return a number of day Monday=0, Sunday=6
+        time_now = datetime.today().strftime("%H:%M")
+        time_open = self.get_working_hours[day_now].get("time_open")
+        time_close = self.get_working_hours[day_now].get("time_close")
+
+        if time_open and time_close:
+            if time_open <= time_now <= time_close:
+                return f'Now {time_now} Postamat is working'
+            else:
+                return f'Postamat is not working at this time {time_now}'
+
 
 
 
